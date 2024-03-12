@@ -13,13 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introdução
 
-Os testes de homogeneidade proporcionam uma abordagem essencial para avaliar a consistência da associação entre duas variáveis (X e Y), desempenhando importante aplicação na área da saúde. Entre esses testes, destaca-se o teste de Breslow-Day, uma ferramenta estatística inicialmente proposta por Breslow e Day em 1980 (Breslow e Day 1980). 
+Os testes de homogeneidade proporcionam uma abordagem essencial para avaliar a consistência da associação entre duas variáveis digamos X e Y, desempenhando importante aplicação, particulamente em estudos relacionados à saúde materna. Entre esses testes, destaca-se o teste de Breslow-Day, uma ferramenta estatística inicialmente proposta por Breslow e Day em 1980 (Breslow e Day 1980). Ao contrário de outros métodos, o teste de homogeneidade de Breslow-Day não se limita a uma análise de tabelas 2×2, como vemos no teste qui-quadrado de homogeneidade, expandindo sua aplicabilidade para verificar a homogeneidade das razões de chances (odds ratios) em diferentes níveis de uma terceira variável, chamada de estratificadora. Aqui, entretanto, não estenderemos a explicações maiores sobre razões de chances. Para melhor informação a respeito do tema, recomendamos a leitura deste outro [**tutorial**](https://observatorioobstetricobr.org/livro-e-tutoriais/risco-relativo-e-odds-ratio-como-calcular-e-suas-principais-diferencas/) já publicado pelo OOBr.
 
-Ao contrário de outros métodos, o teste de homogeneidade de Breslow-Day não se limita a uma análise de tabelas 2×2, como vemos no teste qui-quadrado de homeneidade, expandindo sua aplicabilidade para verificar a homogeneidade das razões de chances (odds ratios) em diferentes estratos de uma terceira variável estratificadora e sendo aplicável em estudos epidemiológicos, como os relacionados à saúde materna.
-
-Aqui, entretanto, não ficaremos presos a explicações maiores sobre razões de chances. Para melhor informação a respeito do tema, recomendamos a leitura deste outro [**tutorial**](https://observatorioobstetricobr.org/livro-e-tutoriais/risco-relativo-e-odds-ratio-como-calcular-e-suas-principais-diferencas/) já publicado pelo OOBr.
-
-Um exemplo ilustrativo da relevância do teste de Breslow-Day em contextos relacionados à saúde materna ou a estudos epidemiológicos é evidenciado ao analisarmos se a relação entre a administração de um tratamento e a incidência de complicações durante a gravidez permanece consistente de acordo com o estado nutricional da gestante, que poderia ser, por exemplo, x e y. Aqui, o estado nutricional da gestante seria a variável estratificadora, e x e y seriam seus estratos. Assim, nosso objetivo seria testar se o tratamento aplicado tem a mesma influência em complicações na gravidez para ambos os estados nutricionais x e y.
+Um exemplo ilustrativo da relevância do teste de Breslow-Day em contextos relacionados à saúde materna é evidenciado ao analisarmos se a relação entre a administração de um tratamento e a incidência de complicações durante a gravidez permanece consistente de acordo com o estado nutricional da gestante, que poderia ser denotado por exemplo, **a** e **b**. Aqui, o estado nutricional da gestante seria a variável estratificadora, e **a** e **b** seriam seus estratos. Assim, nosso objetivo seria testar se o tratamento aplicado tem a mesma influência em complicações na gravidez para ambos os estados nutricionais **a** e **b**.
 
 Este texto pressupõe que o leitor possui conhecimentos prévios em conceitos básicos relacionados à teoria de testes de hipóteses. Caso contrário, ou para uma revisão desses conceitos, recomendamos a leitura do post sobre testes de hipóteses produzido pelo OOBr, disponível neste [link](https://observatorioobstetricobr.org/livro-e-tutoriais/teste-de-hipoteses/).
 
@@ -27,13 +23,13 @@ Este texto pressupõe que o leitor possui conhecimentos prévios em conceitos b�
 
 O teste de Breslow-Day é uma ferramenta estatística robusta projetada para avaliar a homogeneidade das razões de chances (odds ratios) em diferentes estratos de uma variável estratificadora. Sua aplicação se destaca em estudos epidemiológicos, particulamente na área da saúde materna, onde a complexidade das interações entre variáveis exige métodos analíticos refinados. É um teste não paramétrico, logo, não assumimos nenhuma suposição a respeito da distribuição dos dados da amostra.
 
-O primeiro passo, como na aplicação de qualquer teste estatístico, é a definição das hipóteses em análise. As hipóteses para o teste de Breslow-Day, levando em consideração o exemplo de complicação na gravidez nos dois estratos de estado nutricional (denotadotados por K), são:
+O primeiro passo, como na aplicação de qualquer teste estatístico, é a definição das hipóteses em análise. As hipóteses para o teste de Breslow-Day, levando em consideração o exemplo de complicação na gravidez nos dois estratos de estado nutricional, são:
 
  + $H_0$: Não há diferença na razão de chances entre o tratamento aplicado e complicações nos diferentes estratos definidos pela variável estratificadora (por exemplo, estado nutricional da gestante).
 
  + $H_1$: Existe diferença na razão de chances entre o tratamento aplicado e complicações nos diferentes estratos definidos pela variável estratificadora.
 
- A fórmula para o cálculo do teste de Breslow-Day envolve os elementos de uma tabela de contingência, podemos ver na Tabela 1 um exemplo deste tipo de tabela para o k-ésimo estrato.
+ A fórmula para o cálculo do teste de Breslow-Day envolve os elementos de uma tabela de contingência, podemos ver na Tabela 1 um exemplo deste tipo de tabela para o k-ésimo estrato. No nosso caso, k = 1,2.
 
 ```{r tabela_contingencia, echo=FALSE, warning=FALSE}
 library(knitr)
@@ -52,23 +48,23 @@ kable(dados_tabela, format = "markdown", caption = "Tabela de Contingência para
 ```
 Em que:
 
- + $a_k$ é o número de indivíduos que passaram pelo tratamento e tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $a_k$ é o número de indivíduos que passaram pelo tratamento e tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $b_k$ é o número de indivíduos que passaram pelo tratamento e não tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $b_k$ é o número de indivíduos que passaram pelo tratamento e não tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $c_k$ é o número de indivíduos que não passaram pelo tratamento e tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $c_k$ é o número de indivíduos que não passaram pelo tratamento e tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $d_k$ é o número de indivíduos que não passaram pelo tratamento e não tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $d_k$ é o número de indivíduos que não passaram pelo tratamento e não tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $m_{Ck}$ é o número de indivíduos totais que tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $m_{Ck}$ é o número de indivíduos totais que tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $m_{Sk}$ é o número total de indivíduos que não tiveram complicações no k-ésimo estrato da variável estrátificadora;
+ + $m_{Sk}$ é o número total de indivíduos que não tiveram complicações no k-ésimo estrato da variável estratificadora;
 
- + $n_{Tk}$ é o número total de indivíduos  que passaram pelo tratamento no k-ésimo estrato da variável estrátificadora;
+ + $n_{Tk}$ é o número total de indivíduos  que passaram pelo tratamento no k-ésimo estrato da variável estratificadora;
 
- + $n_{Sk}$ é o número total de indivíduos  que não passaram pelo tratamento no k-ésimo estrato da variável estrátificadora;
+ + $n_{Sk}$ é o número total de indivíduos  que não passaram pelo tratamento no k-ésimo estrato da variável estratificadora;
 
- + $T_{k}$ é o número total de indivíduos no k-ésimo estrato da variável estrátificadora.
+ + $T_{k}$ é o número total de indivíduos no k-ésimo estrato da variável estratificadora.
 
 
 A partir destas informações, geramos a estatística de teste $\chi^2_{BD}$, onde $\chi ^2_{BD}$ é distribuído assintoticamente como uma qui-quadrado com K-1 graus de liberdade, sendo K o número total de estratos da variável estratificadora. A estatística de teste é calculada pela seguinte fórmula:
@@ -98,11 +94,7 @@ $$
 Var(a_k) = \left(\frac{1}{E(a_k)} + \frac{1}{n_{Tk} - E(a_k)}+ \frac{1}{m_{Ck} - E(a_k)}+ \frac{1}{n_{Sk} - m_{Ck} +  E(a_k)}\right)^{-1}.
 $$
 
-Assumindo a hipótese nula como verdadeira, conforme discutido no post sobre teste de hipótese ou valor-p, recorremos à distribuição qui-quadrado para avaliar a probabilidade de obter um valor tão extremo quanto o observado. Esse procedimento fornece evidências para a rejeição ou não rejeição da hipótese nula.
-
-Assumido um valor de significância, caso o valor observado seja significativamente extremo, em termos estatísticos, rejeitamos a hipótese nula, indicando evidências de heterogeneidade nas razões de chances entre os estratos. Caso contrário, não temos evidências suficientes para rejeitar a hipótese nula, sugerindo consistência nas associações.
-
-Seguiremos com um exemplo prático com a utilização do software estatístico R para melhor entendimento do teste.  Os dados são meramente ilustrativos, simulados no próprio R de maneira simples.
+Assumindo a hipótese nula como verdadeira, conforme discutido no post sobre teste de hipótese ou valor-p, recorremos à distribuição qui-quadrado para avaliar a probabilidade de obter um valor tão extremo quanto o observado. Esse procedimento fornece evidências para a rejeição ou não rejeição da hipótese nula. Assumido um valor de significância, caso o valor observado seja significativamente extremo, em termos estatísticos, rejeitamos a hipótese nula, indicando evidências de heterogeneidade nas razões de chances entre os estratos. Caso contrário, não temos evidências suficientes para rejeitar a hipótese nula, sugerindo consistência nas associações. Seguiremos com um exemplo prático com a utilização do software estatístico R para melhor entendimento do teste.  Os dados são meramente ilustrativos, simulados no próprio R de maneira simples.
 
 ## Aplicação
 Vamos ilustrar a aplicação do teste de Breslow-Day em dois exemplos práticos relacionados à obstetrícia.
@@ -110,7 +102,7 @@ Vamos ilustrar a aplicação do teste de Breslow-Day em dois exemplos práticos 
 ### Exemplo 1:  Influência do Tipo de Parto na Incidência de Complicações Neonatais
 Neste cenário, consideraremos um estudo que investiga se o tipo de parto (normal ou cesariana) influencia a incidência de complicações neonatais, estratificando por duas idades gestacionais: prematuro e a termo. Gerando duas tabelas,uma para cada um dos K = 2 estratos trabalhados, onde investigamos a homogeneidade da razão de chances entre as variáveis de Tipo de Parto e complicação no parto. 
 
-Pelo R, podemos construir tabelas de contigência de maneira simples, utilizando a função `xtabs` do pacote base, como especificado no código. Onde vemos a variável estratificadora entrando como terceira variável da soma (Idade_gestacional).
+Usando o R, podemos construir tabelas de contigência de maneira simples, utilizando a função `xtabs` do pacote base, como especificado no código. Onde vemos a variável estratificadora entrando como terceira variável da soma (Idade_gestacional).
 
 ```{r echo =FALSE, warning=FALSE}
 # Dados do exemplo 1
