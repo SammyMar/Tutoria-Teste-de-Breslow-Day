@@ -3,7 +3,9 @@ title: "Teste de Breslow-Day"
 author: "Samuel Medeiros"
 date: "2024-01-26"
 output:
-  pdf_document: 
+  html_document:
+    df_print: paged
+  pdf_document:
     latex_engine: xelatex
 ---
 
